@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmação de Compra | ALHO E SÓ</title>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1564863111223979');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" 
+             src="https://www.facebook.com/tr?id=1564863111223979&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
+
     <style>
         :root {
             --primary: #065f46;
@@ -80,6 +100,7 @@
             justify-content: center;
             margin: 0 auto 24px;
             color: var(--primary);
+            transition: all 0.3s ease;
         }
 
         h2 {
@@ -117,15 +138,14 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 4px 6px -1px rgba(6, 95, 70, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #btn-confirm:hover {
             background-color: var(--primary-hover);
             transform: translateY(-1px);
-        }
-
-        #btn-confirm:active {
-            transform: translateY(0);
         }
 
         #btn-confirm:disabled {
@@ -144,16 +164,6 @@
             animation: slideUp 0.4s ease-out;
         }
 
-        .success-message h3 {
-            color: #065f46;
-            margin-bottom: 8px;
-        }
-
-        .success-message p {
-            font-size: 14px;
-            color: #064e3b;
-        }
-
         footer {
             padding: 20px;
             text-align: center;
@@ -161,16 +171,6 @@
             font-size: 10px;
             color: #9ca3af;
             background: #fafafa;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .loading-spinner {
@@ -181,12 +181,11 @@
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
-            margin: 0 auto;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -197,8 +196,8 @@
             <p>Empreendedorismo Lucrativo</p>
         </header>
 
-        <div class="content" id="main-content">
-            <div class="icon-box">
+        <div class="content">
+            <div class="icon-box" id="status-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             </div>
             
@@ -208,7 +207,7 @@
             </div>
             
             <p class="description">
-                Detectamos seu pagamento. Para liberar seu acesso ao material e finalizar o processo, clique no botão abaixo.
+                Detectamos seu pagamento via WhatsApp. Para finalizar o processo e registrar sua entrada na ALHO E SÓ, clique abaixo.
             </p>
 
             <button id="btn-confirm">
@@ -217,8 +216,8 @@
             </button>
 
             <div id="success-box" class="success-message">
-                <h3>Sucesso!</h3>
-                <p>Compra confirmada com sucesso! Bem-vindo(a) à ALHO E SÓ. Verifique seu WhatsApp para o acesso.</p>
+                <h3 style="color: #065f46; margin-bottom: 8px;">Compra Confirmada!</h3>
+                <p style="font-size: 14px; color: #064e3b;">Bem-vindo(a) à ALHO E SÓ. Verifique seu WhatsApp ou e-mail para acessar o material.</p>
             </div>
         </div>
 
@@ -232,23 +231,32 @@
         const btnText = document.getElementById('btn-text');
         const btnLoader = document.getElementById('btn-loader');
         const successBox = document.getElementById('success-box');
-        const iconBox = document.querySelector('.icon-box');
+        const iconBox = document.getElementById('status-icon');
 
         btn.addEventListener('click', function() {
-            // UI Feedback
+            // 1. Disparar Evento Purchase do Meta Pixel
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Purchase', {
+                    value: 97.00,
+                    currency: 'BRL'
+                });
+                console.log('Evento Purchase disparado: R$ 97.00');
+            }
+
+            // 2. Feedback Visual
             btn.disabled = true;
             btnText.style.display = 'none';
             btnLoader.style.display = 'block';
 
-            // Simula processamento
+            // 3. Simular processamento curto para UX
             setTimeout(() => {
                 btn.style.display = 'none';
                 successBox.style.display = 'block';
                 
-                // Muda o ícone para check
+                // Ícone de Sucesso
                 iconBox.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                 iconBox.style.background = '#ecfdf5';
-            }, 1200);
+            }, 1000);
         });
     </script>
 </body>

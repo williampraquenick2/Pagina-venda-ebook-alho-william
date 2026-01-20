@@ -1,1 +1,1 @@
-// Arquivo removido em favor da estrutura de arquivo único index.html.
+// Arquivo intencionalmente limpo. Tudo está concentrado no index.html.
