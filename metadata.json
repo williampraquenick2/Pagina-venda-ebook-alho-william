@@ -1,5 +1,5 @@
 {
   "name": "Alho e Só - Confirmação de Compra",
-  "description": "Página profissional para confirmação de compra do eBook Alho e Só, com integração do Meta Pixel para rastreamento de eventos de conversão.",
+  "description": "Página leve e profissional para confirmação de compra via WhatsApp (Versão sem Pixel).",
   "requestFramePermissions": []
 }

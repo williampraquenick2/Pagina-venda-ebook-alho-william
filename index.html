@@ -1,27 +1,255 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmação de Compra | Alho e Só</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Confirmação de Compra | ALHO E SÓ</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary: #065f46;
+            --primary-hover: #064e3b;
+            --bg: #f9fafb;
+            --white: #ffffff;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --success-bg: #ecfdf5;
+            --success-border: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--white);
+            max-width: 450px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        header {
+            background-color: var(--primary);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--white);
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            color: #a7f3d0;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .icon-box {
+            width: 64px;
+            height: 64px;
+            background: #f0fdf4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: var(--primary);
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .product-info {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        #btn-confirm {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            width: 100%;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(6, 95, 70, 0.2);
+        }
+
+        #btn-confirm:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        #btn-confirm:active {
+            transform: translateY(0);
+        }
+
+        #btn-confirm:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background-color: var(--success-bg);
+            border: 1px solid var(--success-border);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .success-message h3 {
+            color: #065f46;
+            margin-bottom: 8px;
+        }
+
+        .success-message p {
+            font-size: 14px;
+            color: #064e3b;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #f3f4f6;
+            font-size: 10px;
+            color: #9ca3af;
+            background: #fafafa;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
-  }
-}
-</script>
 </head>
-<body class="bg-gray-50 text-gray-900">
-    <div id="root"></div>
+<body>
+
+    <div class="card">
+        <header>
+            <h1>ALHO E SÓ</h1>
+            <p>Empreendedorismo Lucrativo</p>
+        </header>
+
+        <div class="content" id="main-content">
+            <div class="icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            
+            <h2>Confirme sua compra</h2>
+            <div class="product-info">
+                eBook: Como Vender Alho e Gerar Renda Extra
+            </div>
+            
+            <p class="description">
+                Detectamos seu pagamento. Para liberar seu acesso ao material e finalizar o processo, clique no botão abaixo.
+            </p>
+
+            <button id="btn-confirm">
+                <span id="btn-text">CONFIRMAR MINHA COMPRA</span>
+                <div id="btn-loader" class="loading-spinner"></div>
+            </button>
+
+            <div id="success-box" class="success-message">
+                <h3>Sucesso!</h3>
+                <p>Compra confirmada com sucesso! Bem-vindo(a) à ALHO E SÓ. Verifique seu WhatsApp para o acesso.</p>
+            </div>
+        </div>
+
+        <footer>
+            © 2025 ALHO E SÓ - TODOS OS DIREITOS RESERVADOS
+        </footer>
+    </div>
+
+    <script>
+        const btn = document.getElementById('btn-confirm');
+        const btnText = document.getElementById('btn-text');
+        const btnLoader = document.getElementById('btn-loader');
+        const successBox = document.getElementById('success-box');
+        const iconBox = document.querySelector('.icon-box');
+
+        btn.addEventListener('click', function() {
+            // UI Feedback
+            btn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'block';
+
+            // Simula processamento
+            setTimeout(() => {
+                btn.style.display = 'none';
+                successBox.style.display = 'block';
+                
+                // Muda o ícone para check
+                iconBox.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                iconBox.style.background = '#ecfdf5';
+            }, 1200);
+        });
+    </script>
 </body>
 </html>
