@@ -2,13 +2,6 @@
 import React, { useState, useCallback } from 'react';
 import { CheckCircle, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
 
-// Declaration for Meta Pixel function
-declare global {
-  interface Window {
-    fbq: any;
-  }
-}
-
 const App: React.FC = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,17 +9,9 @@ const App: React.FC = () => {
   const handleConfirmPurchase = useCallback(() => {
     setIsLoading(true);
 
-    // Trigger Meta Pixel Purchase Event
-    if (typeof window.fbq !== 'undefined') {
-      window.fbq('track', 'Purchase', {
-        value: 97.00,
-        currency: 'BRL'
-      });
-    } else {
-      console.warn('Meta Pixel not found');
-    }
+    // O disparo do Meta Pixel foi removido conforme solicitado.
 
-    // Simulate a small delay for better UX before showing success
+    // Simula um pequeno atraso para melhor experiência do usuário antes de mostrar o sucesso
     setTimeout(() => {
       setIsLoading(false);
       setIsConfirmed(true);
